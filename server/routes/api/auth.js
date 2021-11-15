@@ -12,7 +12,7 @@ import checkJwt from "../../middleware/auth.js";
 //@access private
 router.get("/", checkJwt, getUsers);
 
-//@route  POST api/login
+//@route  POST api/auth
 //@desc   Authenticate user and get token
 //@access public
 router.post(
