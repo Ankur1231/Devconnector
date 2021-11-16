@@ -100,3 +100,78 @@ export const likePost = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+//addComment
+export const addComment = async (req, res) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res.status(400).json({ error: error.array() });
+  }
+  try {
+    const user = await User.findById(req.user.id).select("-pasword");
+    const post = await Post.findById(req.params.post_id);
+
+    if (!post) {
+      return res.status(404).json({ msg: "post not found" });
+    }
+
+    const newComment = {
+      text: req.body.text,
+      name: user.name,
+      avatar: user.avatar,
+      user: req.user.id,
+    };
+
+    post.comments.unshift(newComment);
+    await post.save();
+    res.status(200).json(post);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
+//deleteComment
+export const deleteComment = async (req, res) => {
+  try {
+    // const post = await Post.findById(req.params.post_id);
+
+    // console.log(post);
+
+    // //pulling out the comment
+    // const comment = post.comments.find((comment) => comment._id.toString() === req.params.comm_id);
+    // if (!comment) {
+    //   return res.status(404).json({ msg: "comment not found" });
+    // }
+
+    // if (comment.user.toString() !== req.user.id) {
+    //   return res.status(401).json({ msg: "unauthorized user" });
+    // }
+
+    // //deleting the comment
+    // comment.remove();
+    // await post.save();
+
+    const 
+
+    const post = await Post.findOneAndUpdate(
+      { "comments._id": req.params.comm_id, "comments.user": req.user.id },
+      {
+        $pull: {
+          comments: {
+            user: req.user.id,
+            _id: req.params.comm_id,
+          },
+        },
+      },
+      { new: true }
+    );
+    if (!post) {
+      return res.status(404);
+    }
+    res.status(200).json(post);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
