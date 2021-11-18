@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,12 +16,12 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
       console.log("Password do not match");
     } else {
-      console.log(formData);
+      console.log("Success");
     }
   };
 
