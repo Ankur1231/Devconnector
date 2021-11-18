@@ -152,8 +152,6 @@ export const deleteComment = async (req, res) => {
     // comment.remove();
     // await post.save();
 
-    const 
-
     const post = await Post.findOneAndUpdate(
       { "comments._id": req.params.comm_id, "comments.user": req.user.id },
       {
