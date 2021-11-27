@@ -20,9 +20,7 @@ export const userRegistration = async (req, res) => {
     // See if user exist
     let existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: [{ message: "User already exist" }] });
+      return res.status(400).json({ error: [{ msg: "User already exist" }] });
     }
 
     //Get user gravatar

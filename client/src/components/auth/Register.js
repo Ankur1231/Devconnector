@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../redux/actions/alert";
+import { register } from "../../redux/actions/auth";
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,7 +23,7 @@ const Register = ({ setAlert }) => {
     if (password !== password2) {
       setAlert("Password do not match", "danger");
     } else {
-      console.log("Success");
+      register({ name, email, password });
     }
   };
 
@@ -32,11 +33,7 @@ const Register = ({ setAlert }) => {
       <p className="lead">
         <i className="fas fa-user"></i> Create Your Account
       </p>
-      <form
-        className="form"
-        action="create-profile.html"
-        onSubmit={(e) => onSubmit(e)}
-      >
+      <form className="form" action="create-profile.html" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="text"
@@ -44,7 +41,7 @@ const Register = ({ setAlert }) => {
             name="name"
             value={name}
             onChange={(e) => onChange(e)}
-            required
+            // required
           />
         </div>
         <div className="form-group">
@@ -56,8 +53,7 @@ const Register = ({ setAlert }) => {
             onChange={(e) => onChange(e)}
           />
           <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
+            This site uses Gravatar so if you want a profile image, use a Gravatar email
           </small>
         </div>
         <div className="form-group">
@@ -65,7 +61,7 @@ const Register = ({ setAlert }) => {
             type="password"
             placeholder="Password"
             name="password"
-            minLength="6"
+            // minLength="6"
             value={password}
             onChange={(e) => onChange(e)}
           />
@@ -75,7 +71,7 @@ const Register = ({ setAlert }) => {
             type="password"
             placeholder="Confirm Password"
             name="password2"
-            minLength="6"
+            // minLength="6"
             value={password2}
             onChange={(e) => onChange(e)}
           />
@@ -89,4 +85,4 @@ const Register = ({ setAlert }) => {
   );
 };
 
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);
