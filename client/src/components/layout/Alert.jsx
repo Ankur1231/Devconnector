@@ -7,7 +7,10 @@ const Alert = () => {
     alerts !== null &&
     alerts.length > 0 &&
     alerts.map((alert) => (
-      <section className="container" style={{ marginTop: 0, marginBottom: 0 }}>
+      <section
+        className="container"
+        style={{ marginTop: 50, marginBottom: 0, paddingBottom: 0 }}
+      >
         <div key={alert.id} className={`alert alert-${alert.alertType}`}>
           {alert.msg}
         </div>

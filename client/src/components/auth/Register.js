@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { v4 as uuid } from "uuid";
+import { Link, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 //redux
 import { settingAlert } from "../../store/alert-slice";
@@ -9,6 +8,7 @@ import { register } from "../../store/auth-actions";
 
 const Register = () => {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,13 +33,22 @@ const Register = () => {
     }
   };
 
+  //redirect if registered
+  if (isAuthenticated) {
+    <Navigate to="/dashboard" />;
+  }
+
   return (
     <section className="container">
       <h1 className="large text-primary">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Create Your Account
       </p>
-      <form className="form" action="create-profile.html" onSubmit={(e) => onSubmit(e)}>
+      <form
+        className="form"
+        action="create-profile.html"
+        onSubmit={(e) => onSubmit(e)}
+      >
         <div className="form-group">
           <input
             type="text"
@@ -59,7 +68,8 @@ const Register = () => {
             onChange={(e) => onChange(e)}
           />
           <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a Gravatar email
+            This site uses Gravatar so if you want a profile image, use a
+            Gravatar email
           </small>
         </div>
         <div className="form-group">

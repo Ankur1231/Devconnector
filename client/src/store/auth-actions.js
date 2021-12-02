@@ -26,6 +26,7 @@ export const register =
       const body = { name, email, password };
       const res = await axios.post(`${url}/api/users`, body);
       dispatch(authActions.registerSuccess(res.data));
+      dispatch(loadUser());
     } catch (error) {
       const errors = error.response.data.error;
       if (errors) {
@@ -35,3 +36,25 @@ export const register =
       dispatch(authActions.registerFail());
     }
   };
+
+//login user
+export const login = (email, password) => async (dispatch) => {
+  try {
+    const body = { email, password };
+    const res = await axios.post(`${url}/api/auth`, body);
+    dispatch(authActions.loginSuccess(res.data));
+    dispatch(loadUser());
+  } catch (error) {
+    const errors = error.response.data.error;
+    if (errors) {
+      errors.forEach((error) => dispatch(settingAlert(error.msg, "danger")));
+    }
+
+    dispatch(authActions.loginFail());
+  }
+};
+
+//logout / Clear user
+export const logout = () => (dispatch) => {
+  dispatch(authActions.logout());
+};
