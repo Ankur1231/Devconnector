@@ -1,30 +1,40 @@
-import "./App.css";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-//redux
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import { useDispatch } from "react-redux";
 
 //components
+import "./App.css";
 import NavBar from "./components/layout/NavBar";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Alert from "./components/layout/Alert";
 
+//redux
+import { loadUser } from "./store/auth-actions";
+import setAuthToken from "./utils/setAuthToken";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <NavBar />
-        <Alert />
-        <Routes>
-          <Route element={<Landing />} path="/" />
-          <Route element={<Login />} path="/login" />
-          <Route element={<Register />} path="/register" />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <NavBar />
+      <Alert />
+      <Routes>
+        <Route element={<Landing />} path="/" />
+        <Route element={<Login />} path="/login" />
+        <Route element={<Register />} path="/register" />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

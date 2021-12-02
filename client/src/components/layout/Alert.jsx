@@ -1,19 +1,19 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
-const Alert = ({ alerts }) =>
-  alerts !== null &&
-  alerts.length > 0 &&
-  alerts.map((alert) => (
-    <section className="container" style={{ marginTop: 0, marginBottom: 0 }}>
-      <div key={alert.id} className={`alert alert-${alert.alertType}`}>
-        {alert.msg}
-      </div>
-    </section>
-  ));
+const Alert = () => {
+  const alerts = useSelector((state) => state.alert);
+  return (
+    alerts !== null &&
+    alerts.length > 0 &&
+    alerts.map((alert) => (
+      <section className="container" style={{ marginTop: 0, marginBottom: 0 }}>
+        <div key={alert.id} className={`alert alert-${alert.alertType}`}>
+          {alert.msg}
+        </div>
+      </section>
+    ))
+  );
+};
 
-const mapStateToProps = (state) => ({
-  alerts: state.alert,
-});
-
-export default connect(mapStateToProps)(Alert);
+export default Alert;

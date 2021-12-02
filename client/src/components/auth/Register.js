@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { setAlert } from "../../redux/actions/alert";
-import { register } from "../../redux/actions/auth";
+import { useDispatch } from "react-redux";
+import { v4 as uuid } from "uuid";
 
-const Register = ({ setAlert, register }) => {
+//redux
+import { settingAlert } from "../../store/alert-slice";
+import { register } from "../../store/auth-actions";
+
+const Register = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,9 +25,11 @@ const Register = ({ setAlert, register }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setAlert("Password do not match", "danger");
+      // setAlert("Password do not match", "danger");
+      // const id = uuid();
+      dispatch(settingAlert("Password do not match", "danger"));
     } else {
-      register({ name, email, password });
+      dispatch(register({ name, email, password }));
     }
   };
 
@@ -85,4 +91,4 @@ const Register = ({ setAlert, register }) => {
   );
 };
 
-export default connect(null, { setAlert, register })(Register);
+export default Register;
