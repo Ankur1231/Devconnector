@@ -10,6 +10,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
+import CreateProfile from "./components/profile-forms/CreateProfile";
 
 //redux
 import { loadUser } from "./store/auth-actions";
@@ -35,6 +36,11 @@ function App() {
         <Route element={<Landing />} path="/" />
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
+        <Route
+          element={isAuthenticated ? <CreateProfile /> : <Navigate to="/login" />}
+          path="/create-profile"
+        />
+
         <Route
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
           path="/dashboard"

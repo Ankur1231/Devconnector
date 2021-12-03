@@ -1,5 +1,6 @@
 import { authActions } from "./auth-slice";
 import { settingAlert } from "./alert-slice";
+import { profileActions } from "./profile-slice";
 import setAuthToken from "../utils/setAuthToken";
 import axios from "axios";
 
@@ -57,4 +58,5 @@ export const login = (email, password) => async (dispatch) => {
 //logout / Clear user
 export const logout = () => (dispatch) => {
   dispatch(authActions.logout());
+  dispatch(profileActions.clearProfile());
 };
