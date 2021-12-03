@@ -11,6 +11,7 @@ import Login from "./components/auth/Login";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/profile-forms/CreateProfile";
+import EditProfile from "./components/profile-forms/EditProfile";
 
 //redux
 import { loadUser } from "./store/auth-actions";
@@ -37,8 +38,14 @@ function App() {
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
         <Route
-          element={isAuthenticated ? <CreateProfile /> : <Navigate to="/login" />}
+          element={
+            isAuthenticated ? <CreateProfile /> : <Navigate to="/login" />
+          }
           path="/create-profile"
+        />
+        <Route
+          element={isAuthenticated ? <EditProfile /> : <Navigate to="/login" />}
+          path="/edit-profile"
         />
 
         <Route

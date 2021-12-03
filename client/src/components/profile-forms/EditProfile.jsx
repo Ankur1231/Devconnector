@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 //redux
 import { createProfile } from "../../store/profile-actions";
+import { getCurrentProfile } from "../../store/profile-actions";
 
 const initialState = {
   company: "",
@@ -21,11 +21,14 @@ const initialState = {
   instagram: "",
 };
 
-const CreateProfile = () => {
+const EditProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [formData, setFromData] = useState(initialState);
+  const profile = useSelector((state) => state.profile.profile);
+  const loading = useSelector((state) => state.profile.loading);
+
+  const [formData, setFormData] = useState(initialState);
   const [displaySocialInputs, setDisplaySocialInputs] = useState(false);
 
   const {
@@ -43,13 +46,35 @@ const CreateProfile = () => {
     instagram,
   } = formData;
 
+  useEffect(() => {
+    // if there is no profile, attempt to fetch one
+    if (!profile) dispatch(getCurrentProfile());
+
+    // if we finished loading and we do have a profile
+    // then build our profileData
+    if (!loading && profile) {
+      const profileData = { ...initialState };
+      for (const key in profile) {
+        if (key in profileData) profileData[key] = profile[key];
+      }
+      for (const key in profile.social) {
+        if (key in profileData) profileData[key] = profile.social[key];
+      }
+      // the skills may be an array from our API response
+      if (Array.isArray(profileData.skills))
+        profileData.skills = profileData.skills.join(", ");
+      // set local state with the profileData
+      setFormData(profileData);
+    }
+  }, []);
+
   const onChange = (e) => {
-    setFromData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProfile(formData, navigate));
+    dispatch(createProfile(formData, navigate, true));
   };
 
   return (
@@ -261,4 +286,4 @@ const CreateProfile = () => {
   );
 };
 
-export default CreateProfile;
+export default EditProfile;

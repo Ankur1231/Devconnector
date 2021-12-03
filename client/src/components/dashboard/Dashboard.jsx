@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 //components
+import DashboardActions from "./DashboardActions";
 import Spinner from "../layout/Spinner";
 
 //redux
@@ -27,7 +28,10 @@ const Dashboard = () => {
           <i className="fas fa-user"></i> Welcome {user && user.name}
         </p>
         {profile.profile !== null ? (
-          <> has </>
+          <>
+            {" "}
+            <DashboardActions />{" "}
+          </>
         ) : (
           <>
             <p>You do not have a profile, Please make one</p>
