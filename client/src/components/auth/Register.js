@@ -35,7 +35,7 @@ const Register = () => {
 
   //redirect if registered
   if (isAuthenticated) {
-    <Navigate to="/dashboard" />;
+    return <Navigate to="/dashboard" />;
   }
 
   return (

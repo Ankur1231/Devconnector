@@ -7,6 +7,7 @@ dotenv.config;
 //components
 import Profile from "../models/Profile.js";
 import User from "../models/User.js";
+import Post from "../models/Post.js";
 import { response } from "express";
 
 //getMyProfile
@@ -123,7 +124,8 @@ export const getOneProfile = async (req, res) => {
 //deleteProfile
 export const deleteProfile = async (req, res) => {
   try {
-    //@todo- remove all posts
+    //remove all posts
+    await Post.deleteMany({ user: req.user.id });
     //remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     //remove user

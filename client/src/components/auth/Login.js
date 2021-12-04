@@ -31,7 +31,7 @@ const Login = () => {
 
   return (
     <section className="container">
-      <h1 className="large text-primary">Sign Up</h1>
+      <h1 className="large text-primary">Log In</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Create Your Account
       </p>

@@ -10,6 +10,7 @@ import Experience from "./Experience";
 //redux
 import { getCurrentProfile } from "../../store/profile-actions";
 import Education from "./Education";
+import { deleteAccount } from "../../store/profile-actions";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,10 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getCurrentProfile());
   }, [dispatch]);
+
+  const deleteAccountHandler = () => {
+    dispatch(deleteAccount());
+  };
 
   return profile.loading && profile.profile === null ? (
     <Spinner />
@@ -35,6 +40,11 @@ const Dashboard = () => {
             <DashboardActions />
             <Experience experience={profile.profile.experience} />
             <Education education={profile.profile.education} />
+            <div className="my-2">
+              <button className="btn btn-danger" onClick={deleteAccountHandler}>
+                <i className="fas fa-user-minus"></i> Delete My Account
+              </button>
+            </div>
           </>
         ) : (
           <>

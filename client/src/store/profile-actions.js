@@ -1,6 +1,7 @@
 import axios from "axios";
 import { profileActions } from "./profile-slice";
 import { settingAlert } from "./alert-slice";
+import { authActions } from "./auth-slice";
 
 const url = "http://localhost:8000";
 
@@ -11,7 +12,10 @@ export const getCurrentProfile = () => async (dispatch) => {
     dispatch(profileActions.getProfile(res.data));
   } catch (error) {
     dispatch(
-      profileActions.profileError({ msg: error.response.statusText, status: error.response.status })
+      profileActions.profileError({
+        msg: error.response.statusText,
+        status: error.response.status,
+      })
     );
   }
 };
@@ -23,7 +27,9 @@ export const createProfile =
     try {
       const res = await axios.post(`${url}/api/profile`, formData);
       dispatch(profileActions.getProfile(res.data));
-      dispatch(settingAlert(edit ? "Profile Updated" : "Profile Created", "success"));
+      dispatch(
+        settingAlert(edit ? "Profile Updated" : "Profile Created", "success")
+      );
       if (!edit) {
         navigate("/dashboard");
       }
@@ -80,5 +86,75 @@ export const addEducation = (formData, navigate) => async (dispatch) => {
         status: error.response.status,
       })
     );
+  }
+};
+
+//delete Education
+export const deleteEducation = (id) => async (dispatch) => {
+  if (window.confirm("Are you sure ? This cannot be undone!")) {
+    try {
+      const res = await axios.delete(`${url}/api/profile/education/${id}`);
+      dispatch(profileActions.updateProfile(res.data));
+
+      dispatch(settingAlert("education Deleted", "success"));
+    } catch (error) {
+      const errors = error.response.data.error;
+      if (errors) {
+        errors.forEach((error) => dispatch(settingAlert(error.msg, "danger")));
+      }
+      dispatch(
+        profileActions.profileError({
+          msg: error.response.statusText,
+          status: error.response.status,
+        })
+      );
+    }
+  }
+};
+
+//delete Experience
+export const deleteExperience = (id) => async (dispatch) => {
+  if (window.confirm("Are you sure ? This cannot be undone!")) {
+    try {
+      const res = await axios.delete(`${url}/api/profile/experience/${id}`);
+      dispatch(profileActions.updateProfile(res.data));
+
+      dispatch(settingAlert("experience Deleted", "success"));
+    } catch (error) {
+      const errors = error.response.data.error;
+      if (errors) {
+        errors.forEach((error) => dispatch(settingAlert(error.msg, "danger")));
+      }
+      dispatch(
+        profileActions.profileError({
+          msg: error.response.statusText,
+          status: error.response.status,
+        })
+      );
+    }
+  }
+};
+
+//delete account and profile
+export const deleteAccount = () => async (dispatch) => {
+  if (window.confirm("Are you sure ? This cannot be undone!")) {
+    try {
+      const res = await axios.delete(`${url}/api/profile`);
+      dispatch(profileActions.clearProfile());
+      dispatch(authActions.accountDeleted());
+
+      dispatch(settingAlert("account successfully deleted", "success"));
+    } catch (error) {
+      const errors = error.response.data.error;
+      if (errors) {
+        errors.forEach((error) => dispatch(settingAlert(error.msg, "danger")));
+      }
+      dispatch(
+        profileActions.profileError({
+          msg: error.response.statusText,
+          status: error.response.status,
+        })
+      );
+    }
   }
 };

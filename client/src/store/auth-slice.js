@@ -51,6 +51,13 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = null;
     },
+    accountDeleted(state, action) {
+      localStorage.removeItem("token");
+      state.token = null;
+      state.isAuthenticated = false;
+      state.loading = false;
+      state.user = null;
+    },
   },
 });
 
