@@ -25,6 +25,10 @@ const profileSlice = createSlice({
       state.repos = [];
       state.error = {};
     },
+    updateProfile(state, action) {
+      state.profile = action.payload;
+      state.loading = false;
+    },
   },
 });
 

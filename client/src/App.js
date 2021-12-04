@@ -12,6 +12,8 @@ import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/profile-forms/CreateProfile";
 import EditProfile from "./components/profile-forms/EditProfile";
+import AddExperience from "./components/profile-forms/AddExperience";
+import AddEducation from "./components/profile-forms/AddEducation";
 
 //redux
 import { loadUser } from "./store/auth-actions";
@@ -38,16 +40,21 @@ function App() {
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
         <Route
-          element={
-            isAuthenticated ? <CreateProfile /> : <Navigate to="/login" />
-          }
+          element={isAuthenticated ? <CreateProfile /> : <Navigate to="/login" />}
           path="/create-profile"
         />
         <Route
           element={isAuthenticated ? <EditProfile /> : <Navigate to="/login" />}
           path="/edit-profile"
         />
-
+        <Route
+          element={isAuthenticated ? <AddExperience /> : <Navigate to="/login" />}
+          path="/add-experience"
+        />
+        <Route
+          element={isAuthenticated ? <AddEducation /> : <Navigate to="/login" />}
+          path="/add-education"
+        />
         <Route
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
           path="/dashboard"

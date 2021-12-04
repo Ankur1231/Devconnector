@@ -40,3 +40,45 @@ export const createProfile =
       );
     }
   };
+
+//add experience
+export const addExperience = (formData, navigate) => async (dispatch) => {
+  try {
+    const res = await axios.put(`${url}/api/profile/experience`, formData);
+    dispatch(profileActions.updateProfile(res.data));
+    dispatch(settingAlert("Experienec Added", "success"));
+    navigate("/dashboard");
+  } catch (error) {
+    const errors = error.response.data.error;
+    if (errors) {
+      errors.forEach((error) => dispatch(settingAlert(error.msg, "danger")));
+    }
+    dispatch(
+      profileActions.profileError({
+        msg: error.response.statusText,
+        status: error.response.status,
+      })
+    );
+  }
+};
+
+//add education
+export const addEducation = (formData, navigate) => async (dispatch) => {
+  try {
+    const res = await axios.put(`${url}/api/profile/education`, formData);
+    dispatch(profileActions.updateProfile(res.data));
+    dispatch(settingAlert("education Added", "success"));
+    navigate("/dashboard");
+  } catch (error) {
+    const errors = error.response.data.error;
+    if (errors) {
+      errors.forEach((error) => dispatch(settingAlert(error.msg, "danger")));
+    }
+    dispatch(
+      profileActions.profileError({
+        msg: error.response.statusText,
+        status: error.response.status,
+      })
+    );
+  }
+};
