@@ -14,6 +14,14 @@ const profileSlice = createSlice({
       state.profile = action.payload;
       state.loading = false;
     },
+    getProfiles(state, action) {
+      state.profiles = action.payload;
+      state.loading = false;
+    },
+    getRepos(state, action) {
+      state.repos = action.payload;
+      state.loading = false;
+    },
     profileError(state, action) {
       state.error = action.payload;
       state.loading = false;

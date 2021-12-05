@@ -13,7 +13,7 @@ const NavBar = () => {
   const guestLinks = (
     <ul>
       <li>
-        <a href="profiles.html">Developers</a>
+        <Link to="/profiles">Developers</Link>
       </li>
       <li>
         <Link to="/register">Register</Link>
@@ -26,6 +26,9 @@ const NavBar = () => {
 
   const authLinks = (
     <ul>
+      <li>
+        <Link to="/profiles">Developers</Link>
+      </li>
       <li>
         <Link to="/dashboard">
           <i className="fas fa-user"></i> <span className="hide-sm">Dashboard</span>

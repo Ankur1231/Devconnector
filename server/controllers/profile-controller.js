@@ -13,10 +13,10 @@ import { response } from "express";
 //getMyProfile
 export const getMyProfile = async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id }).populate(
-      "user",
-      ["name", "avatar"]
-    );
+    const profile = await Profile.findOne({ user: req.user.id }).populate("user", [
+      "name",
+      "avatar",
+    ]);
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for this user" });
     }
@@ -92,10 +92,7 @@ export const createProfile = async (req, res) => {
 //getAllProfile
 export const getAllProfile = async (req, res) => {
   try {
-    const profiles = await Profile.find({}).populate("user", [
-      "name",
-      "avatar",
-    ]);
+    const profiles = await Profile.find({}).populate("user", ["name", "avatar"]);
     res.status(200).json(profiles);
   } catch (error) {
     console.log(error);
@@ -114,8 +111,7 @@ export const getOneProfile = async (req, res) => {
 
     res.status(200).json(profile);
   } catch (error) {
-    if (error.kind == "ObjectId")
-      return res.status(400).json({ msg: "profile not found" });
+    if (error.kind == "ObjectId") return res.status(400).json({ msg: "profile not found" });
     console.log(error);
     res.status(500).json(error);
   }
@@ -190,8 +186,7 @@ export const addEducation = async (req, res) => {
     return res.status(400).json({ error: error.array() });
   }
 
-  const { school, degree, fieldofstudy, from, to, current, description } =
-    req.body;
+  const { school, degree, fieldofstudy, from, to, current, description } = req.body;
   const newEdu = {
     school,
     degree,

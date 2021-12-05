@@ -20,6 +20,52 @@ export const getCurrentProfile = () => async (dispatch) => {
   }
 };
 
+//get all profiles
+export const getAllProfiles = () => async (dispatch) => {
+  dispatch(profileActions.clearProfile());
+  try {
+    const res = await axios.get(`${url}/api/profile`);
+    dispatch(profileActions.getProfiles(res.data));
+  } catch (error) {
+    dispatch(
+      profileActions.profileError({
+        msg: error.response.statusText,
+        status: error.response.status,
+      })
+    );
+  }
+};
+
+//get profile by userID
+export const getProfileByUserId = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${url}/api/profile/user/${userId}`);
+    dispatch(profileActions.getProfile(res.data));
+  } catch (error) {
+    dispatch(
+      profileActions.profileError({
+        msg: error.response.statusText,
+        status: error.response.status,
+      })
+    );
+  }
+};
+
+//get github repos
+export const getGithubRepos = (userName) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${url}/api/profile/github/${userName}`);
+    dispatch(profileActions.getRepos(res.data));
+  } catch (error) {
+    dispatch(
+      profileActions.profileError({
+        msg: error.response.statusText,
+        status: error.response.status,
+      })
+    );
+  }
+};
+
 //Create or update Profile
 export const createProfile =
   (formData, navigate, edit = false) =>
@@ -27,9 +73,7 @@ export const createProfile =
     try {
       const res = await axios.post(`${url}/api/profile`, formData);
       dispatch(profileActions.getProfile(res.data));
-      dispatch(
-        settingAlert(edit ? "Profile Updated" : "Profile Created", "success")
-      );
+      dispatch(settingAlert(edit ? "Profile Updated" : "Profile Created", "success"));
       if (!edit) {
         navigate("/dashboard");
       }
@@ -139,7 +183,7 @@ export const deleteExperience = (id) => async (dispatch) => {
 export const deleteAccount = () => async (dispatch) => {
   if (window.confirm("Are you sure ? This cannot be undone!")) {
     try {
-      const res = await axios.delete(`${url}/api/profile`);
+      await axios.delete(`${url}/api/profile`);
       dispatch(profileActions.clearProfile());
       dispatch(authActions.accountDeleted());
 
