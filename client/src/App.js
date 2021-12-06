@@ -17,6 +17,7 @@ import AddEducation from "./components/profile-forms/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 
 //redux
 import { loadUser } from "./store/auth-actions";
@@ -43,7 +44,9 @@ function App() {
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
         <Route
-          element={isAuthenticated ? <CreateProfile /> : <Navigate to="/login" />}
+          element={
+            isAuthenticated ? <CreateProfile /> : <Navigate to="/login" />
+          }
           path="/create-profile"
         />
         <Route
@@ -51,18 +54,29 @@ function App() {
           path="/edit-profile"
         />
         <Route
-          element={isAuthenticated ? <AddExperience /> : <Navigate to="/login" />}
+          element={
+            isAuthenticated ? <AddExperience /> : <Navigate to="/login" />
+          }
           path="/add-experience"
         />
         <Route
-          element={isAuthenticated ? <AddEducation /> : <Navigate to="/login" />}
+          element={
+            isAuthenticated ? <AddEducation /> : <Navigate to="/login" />
+          }
           path="/add-education"
         />
         <Route
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
           path="/dashboard"
         />
-        <Route element={isAuthenticated ? <Posts /> : <Navigate to="/login" />} path="/posts" />
+        <Route
+          element={isAuthenticated ? <Posts /> : <Navigate to="/login" />}
+          path="/posts"
+        />
+        <Route
+          element={isAuthenticated ? <Post /> : <Navigate to="/login" />}
+          path="/post/:id"
+        />
         <Route element={<Profiles />} path="/profiles" />
         <Route element={<Profile />} path="/profile/:id" />
         <Route
